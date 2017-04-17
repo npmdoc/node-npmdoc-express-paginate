@@ -1,0 +1,636 @@
+<html><head></head><body><div class="apidocDiv">
+<style>
+/*csslint
+*/
+.apidocDiv {
+    background: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.apidocDiv a[href] {
+    color: #33f;
+    font-weight: bold;
+    text-decoration: none;
+}
+.apidocDiv a[href]:hover {
+    text-decoration: underline;
+}
+.apidocCodeCommentSpan {
+    background: #bbf;
+    color: #000;
+    display: block;
+}
+.apidocCodeKeywordSpan {
+    color: #d00;
+    font-weight: bold;
+}
+.apidocCodePre {
+    background: #eef;
+    border: 1px solid;
+    color: #777;
+    padding: 5px;
+    white-space: pre-wrap;
+}
+.apidocFooterDiv {
+    margin-top: 20px;
+    text-align: center;
+}
+.apidocModuleLi {
+    margin-top: 10px;
+}
+.apidocSectionDiv {
+    border-top: 1px solid;
+    margin-top: 20px;
+}
+.apidocSignatureSpan {
+    color: #777;
+    font-weight: bold;
+}
+</style>
+<h1>api documentation for
+    <a href="https://github.com/niftylettuce/express-paginate">express-paginate (v0.2.2)</a>
+</h1>
+<h4>Node.js pagination middleware and view helpers</h4>
+<div class="apidocSectionDiv"><a href="#apidoc.tableOfContents" id="apidoc.tableOfContents"><h1>table of contents</h1></a><ol>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.express-paginate">module express-paginate</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.express-paginate.getArrayPages">
+            function <span class="apidocSignatureSpan">express-paginate.</span>getArrayPages
+            <span class="apidocSignatureSpan">(req)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.express-paginate.hasNextPages">
+            function <span class="apidocSignatureSpan">express-paginate.</span>hasNextPages
+            <span class="apidocSignatureSpan">(req)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.express-paginate.href">
+            function <span class="apidocSignatureSpan">express-paginate.</span>href
+            <span class="apidocSignatureSpan">(req)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.express-paginate.middleware">
+            function <span class="apidocSignatureSpan">express-paginate.</span>middleware
+            <span class="apidocSignatureSpan">(limit, maxLimit)</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.express-paginate.getArrayPages">module express-paginate.getArrayPages</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.express-paginate.getArrayPages.getArrayPages">
+            function <span class="apidocSignatureSpan">express-paginate.</span>getArrayPages
+            <span class="apidocSignatureSpan">(req)</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.express-paginate.hasNextPages">module express-paginate.hasNextPages</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.express-paginate.hasNextPages.hasNextPages">
+            function <span class="apidocSignatureSpan">express-paginate.</span>hasNextPages
+            <span class="apidocSignatureSpan">(req)</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.express-paginate.href">module express-paginate.href</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.express-paginate.href.href">
+            function <span class="apidocSignatureSpan">express-paginate.</span>href
+            <span class="apidocSignatureSpan">(req)</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.express-paginate.middleware">module express-paginate.middleware</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.express-paginate.middleware.middleware">
+            function <span class="apidocSignatureSpan">express-paginate.</span>middleware
+            <span class="apidocSignatureSpan">(limit, maxLimit)</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+</ol></div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.express-paginate" id="apidoc.module.express-paginate">module express-paginate</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.express-paginate.getArrayPages" id="apidoc.element.express-paginate.getArrayPages">
+        function <span class="apidocSignatureSpan">express-paginate.</span>getArrayPages
+        <span class="apidocSignatureSpan">(req)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">getArrayPages = function (req) {
+  return function(limit, pageCount, currentPage) {
+    var maxPage = pageCount;
+
+    // limit default is 3
+    limit = limit || 3;
+
+    if (typeof limit !== 'number' || limit &lt; 0)
+      throw new Error('express-paginate: `limit` is not a number &gt;= 0');
+
+    if (typeof pageCount !== 'number' || pageCount &lt; 0)
+      throw new Error('express-paginate: `pageCount` is not a number &gt;= 0');
+
+    if (typeof currentPage !== 'number' || currentPage &lt; 0)
+      throw new Error('express-paginate: `currentPage` is not a number &gt;= 0');
+
+    if (limit &gt; 0) {
+      var end = Math.min(Math.max(currentPage + Math.floor(limit / 2), limit), pageCount);
+      var start = (currentPage &lt; (limit - 1)) ? 1 : (end - limit) + 1;
+			
+      var pages = [];
+      for (var i = start; i &lt;= end; i++) {
+        pages.push({
+          number: i,
+          url: exports.href(req)()
+          .replace('page=' + (currentPage + 1), 'page=' + i)
+        });
+      }
+
+      return pages;
+    }
+  }
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+
+* `req` (**required**) &amp;ndash; the request object returned from Express middleware invocation
+
+#### Returned function arguments when invoked with `req`
+
+* `pageCount` (**required**) &amp;ndash; a Number representing the total number of pages for the given query executed on the page
+
+### paginate.<span class="apidocCodeKeywordSpan">getArrayPages</span>(req)
+
+Get all the page urls with limit.
+![petronas contest 2015-10-29 12-35-52](https://cloud.githubusercontent.com/assets/3213579/10810997/a5b0b190-7e39-11e5-9cca-fb00a2142640
+.png)
+
+#### Arguments
+
+* `req` (**required**) &amp;ndash; the request object returned from Express middleware invocation
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.express-paginate.hasNextPages" id="apidoc.element.express-paginate.hasNextPages">
+        function <span class="apidocSignatureSpan">express-paginate.</span>hasNextPages
+        <span class="apidocSignatureSpan">(req)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function hasNextPages(req) {
+  return function(pageCount) {
+    if (typeof pageCount !== 'number' || pageCount &lt; 0)
+      throw new Error('express-paginate: `pageCount` is not a number &gt;= 0');
+    return req.query.page &lt; pageCount;
+  };
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+* `params` (optional) &amp;ndash; an Object of querystring parameters that will override the current querystring in `req.query` (
+note that this will also override the `page` querystring value if `page` is present as a key in the `params` object) (e.g. if you
+ want to make a link that allows the user to change the current querystring to sort by name, you would have `params` equal to `{
+sort: 'name' }`)
+
+### paginate.hasPreviousPages
+
+When you use the `paginate` middleware, it injects a view helper Boolean called `hasPreviousPages` as `res.locals.hasPreviousPages
+`, which you can use in your views for generating pagination `&lt;a&gt;`'s or `&lt;button&gt;`'s &amp;ndash;
+this utilizes `req.query.page &gt; 1` to determine the Boolean's resulting value (representing if the query has a previous
+ page of results)
+
+
+### paginate.<span class="apidocCodeKeywordSpan">hasNextPages</span>(req)
+
+When you use the `paginate` middleware, it injects a view helper function called `hasNextPages` as `res.locals.hasPreviousPages`,
+which you can use in your views for generating pagination `&lt;a&gt;`'s or `&lt;button&gt;`'s &amp;ndash; if
+the function is executed, it returns a Boolean value (representing if the query has another page of results)
+
+By default, the view helper `paginate.hasNextPages` is already executed with the inherited `req` variable, therefore it becomes
+a function capable of returning a Boolean when executed.
+
+When executed with `req`, it will return a function that accepts two required arguments called `pageCount` and `resultsCount`.
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.express-paginate.href" id="apidoc.element.express-paginate.href">
+        function <span class="apidocSignatureSpan">express-paginate.</span>href
+        <span class="apidocSignatureSpan">(req)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function href(req) {
+
+  return function(prev, params) {
+
+    var query = clone(req.query);
+
+    if (typeof prev === 'object') {
+      params = prev;
+      prev = false;
+    } else {
+      prev = (typeof prev === 'boolean') ? prev : false;
+      query.page = prev ? query.page-= 1 : query.page += 1;
+      query.page = (query.page &lt; 1) ? 1 : query.page;
+    }
+
+    // allow overriding querystring params
+    // (useful for sorting and filtering)
+    // another alias for `_.assign` is `_.extend`
+    if (isObject(params))
+      query = assign(query, params);
+
+    return url.parse(req.originalUrl).pathname + '?' + querystring.stringify(query);
+
+  };
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+
+#### Arguments
+
+* `limit` a Number to limit results returned per page (defaults to `10`)
+* `maxLimit` a Number to restrict the number of results returned to per page (defaults to `50`) &amp;ndash; through this, users
+ will not be able to override this limit (e.g. they can't pass `?limit=10000` and crash your server)
+
+
+### paginate.<span class="apidocCodeKeywordSpan">href</span>(req)
+
+When you use the `paginate` middleware, it injects a view helper function called `paginate.href` as `res.locals.paginate`, which
+ you can use in your views for paginated hyperlinks (e.g. as the `href` in `&lt;a&gt;Prev&lt;/a&gt;` or `&lt;a&gt;Next
+&lt;/a&gt;`).
+
+By default, the view helper `paginate.href` is already executed with the inherited `req` variable, therefore it becomes a function
+ capable of returning a String when executed.
+
+When executed with `req`, it will return a function with two optional arguments, `prev` (Boolean) and `params` (String).
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.express-paginate.middleware" id="apidoc.element.express-paginate.middleware">
+        function <span class="apidocSignatureSpan">express-paginate.</span>middleware
+        <span class="apidocSignatureSpan">(limit, maxLimit)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function middleware(limit, maxLimit) {
+
+  var _limit = (typeof limit === 'number') ? parseInt(limit, 10) : 10;
+
+  var _maxLimit = (typeof maxLimit === 'number') ? parseInt(maxLimit, 10) : 50;
+
+  return function _middleware(req, res, next) {
+
+    req.query.page = (typeof req.query.page === 'string') ? parseInt(req.query.page, 10) || 1 : 1;
+
+    req.query.limit = (typeof req.query.limit === 'string') ? parseInt(req.query.limit, 10) || 0 : _limit;
+
+    if (req.query.limit &gt; _maxLimit)
+      req.query.limit = _maxLimit;
+
+    if (req.query.page &lt; 1)
+      req.query.page = 1;
+
+    if (req.query.limit &lt; 0)
+      req.query.limit = 0;
+
+    req.skip = req.offset = (req.query.page * req.query.limit) - req.query.limit;
+
+    res.locals.paginate = {};
+    res.locals.paginate.page = req.query.page;
+    res.locals.paginate.limit = req.query.limit;
+    res.locals.paginate.href = exports.href(req);
+    res.locals.paginate.hasPreviousPages = req.query.page &gt; 1;
+    res.locals.paginate.hasNextPages = exports.hasNextPages(req);
+    res.locals.paginate.getArrayPages = exports.getArrayPages(req);
+
+    next();
+
+  };
+
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+```
+
+### paginate
+
+This creates a new instance of `express-paginate`.
+
+
+### paginate.<span class="apidocCodeKeywordSpan">middleware</span>(limit, maxLimit)
+
+This middleware validates and supplies default values to `req.skip` (an alias of `req.offset`, which can be used to skip or offset
+ a number of records for pagination, e.g. with Mongoose you would do `Model.find().skip(req.skip)`), `req.query.limit`, `req.query
+.page`, `res.locals.paginate`, `res.locals.hasPreviousPages`, and `res.locals.hasNextPages`.
+
+#### Arguments
+
+* `limit` a Number to limit results returned per page (defaults to `10`)
+* `maxLimit` a Number to restrict the number of results returned to per page (defaults to `50`) &amp;ndash; through this, users
+ will not be able to override this limit (e.g. they can't pass `?limit=10000` and crash your server)
+...</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.express-paginate.getArrayPages" id="apidoc.module.express-paginate.getArrayPages">module express-paginate.getArrayPages</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.express-paginate.getArrayPages.getArrayPages" id="apidoc.element.express-paginate.getArrayPages.getArrayPages">
+        function <span class="apidocSignatureSpan">express-paginate.</span>getArrayPages
+        <span class="apidocSignatureSpan">(req)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">getArrayPages = function (req) {
+  return function(limit, pageCount, currentPage) {
+    var maxPage = pageCount;
+
+    // limit default is 3
+    limit = limit || 3;
+
+    if (typeof limit !== 'number' || limit &lt; 0)
+      throw new Error('express-paginate: `limit` is not a number &gt;= 0');
+
+    if (typeof pageCount !== 'number' || pageCount &lt; 0)
+      throw new Error('express-paginate: `pageCount` is not a number &gt;= 0');
+
+    if (typeof currentPage !== 'number' || currentPage &lt; 0)
+      throw new Error('express-paginate: `currentPage` is not a number &gt;= 0');
+
+    if (limit &gt; 0) {
+      var end = Math.min(Math.max(currentPage + Math.floor(limit / 2), limit), pageCount);
+      var start = (currentPage &lt; (limit - 1)) ? 1 : (end - limit) + 1;
+			
+      var pages = [];
+      for (var i = start; i &lt;= end; i++) {
+        pages.push({
+          number: i,
+          url: exports.href(req)()
+          .replace('page=' + (currentPage + 1), 'page=' + i)
+        });
+      }
+
+      return pages;
+    }
+  }
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+
+* `req` (**required**) &amp;ndash; the request object returned from Express middleware invocation
+
+#### Returned function arguments when invoked with `req`
+
+* `pageCount` (**required**) &amp;ndash; a Number representing the total number of pages for the given query executed on the page
+
+### paginate.<span class="apidocCodeKeywordSpan">getArrayPages</span>(req)
+
+Get all the page urls with limit.
+![petronas contest 2015-10-29 12-35-52](https://cloud.githubusercontent.com/assets/3213579/10810997/a5b0b190-7e39-11e5-9cca-fb00a2142640
+.png)
+
+#### Arguments
+
+* `req` (**required**) &amp;ndash; the request object returned from Express middleware invocation
+...</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.express-paginate.hasNextPages" id="apidoc.module.express-paginate.hasNextPages">module express-paginate.hasNextPages</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.express-paginate.hasNextPages.hasNextPages" id="apidoc.element.express-paginate.hasNextPages.hasNextPages">
+        function <span class="apidocSignatureSpan">express-paginate.</span>hasNextPages
+        <span class="apidocSignatureSpan">(req)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function hasNextPages(req) {
+  return function(pageCount) {
+    if (typeof pageCount !== 'number' || pageCount &lt; 0)
+      throw new Error('express-paginate: `pageCount` is not a number &gt;= 0');
+    return req.query.page &lt; pageCount;
+  };
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+* `params` (optional) &amp;ndash; an Object of querystring parameters that will override the current querystring in `req.query` (
+note that this will also override the `page` querystring value if `page` is present as a key in the `params` object) (e.g. if you
+ want to make a link that allows the user to change the current querystring to sort by name, you would have `params` equal to `{
+sort: 'name' }`)
+
+### paginate.hasPreviousPages
+
+When you use the `paginate` middleware, it injects a view helper Boolean called `hasPreviousPages` as `res.locals.hasPreviousPages
+`, which you can use in your views for generating pagination `&lt;a&gt;`'s or `&lt;button&gt;`'s &amp;ndash;
+this utilizes `req.query.page &gt; 1` to determine the Boolean's resulting value (representing if the query has a previous
+ page of results)
+
+
+### paginate.<span class="apidocCodeKeywordSpan">hasNextPages</span>(req)
+
+When you use the `paginate` middleware, it injects a view helper function called `hasNextPages` as `res.locals.hasPreviousPages`,
+which you can use in your views for generating pagination `&lt;a&gt;`'s or `&lt;button&gt;`'s &amp;ndash; if
+the function is executed, it returns a Boolean value (representing if the query has another page of results)
+
+By default, the view helper `paginate.hasNextPages` is already executed with the inherited `req` variable, therefore it becomes
+a function capable of returning a Boolean when executed.
+
+When executed with `req`, it will return a function that accepts two required arguments called `pageCount` and `resultsCount`.
+...</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.express-paginate.href" id="apidoc.module.express-paginate.href">module express-paginate.href</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.express-paginate.href.href" id="apidoc.element.express-paginate.href.href">
+        function <span class="apidocSignatureSpan">express-paginate.</span>href
+        <span class="apidocSignatureSpan">(req)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function href(req) {
+
+  return function(prev, params) {
+
+    var query = clone(req.query);
+
+    if (typeof prev === 'object') {
+      params = prev;
+      prev = false;
+    } else {
+      prev = (typeof prev === 'boolean') ? prev : false;
+      query.page = prev ? query.page-= 1 : query.page += 1;
+      query.page = (query.page &lt; 1) ? 1 : query.page;
+    }
+
+    // allow overriding querystring params
+    // (useful for sorting and filtering)
+    // another alias for `_.assign` is `_.extend`
+    if (isObject(params))
+      query = assign(query, params);
+
+    return url.parse(req.originalUrl).pathname + '?' + querystring.stringify(query);
+
+  };
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+
+#### Arguments
+
+* `limit` a Number to limit results returned per page (defaults to `10`)
+* `maxLimit` a Number to restrict the number of results returned to per page (defaults to `50`) &amp;ndash; through this, users
+ will not be able to override this limit (e.g. they can't pass `?limit=10000` and crash your server)
+
+
+### paginate.<span class="apidocCodeKeywordSpan">href</span>(req)
+
+When you use the `paginate` middleware, it injects a view helper function called `paginate.href` as `res.locals.paginate`, which
+ you can use in your views for paginated hyperlinks (e.g. as the `href` in `&lt;a&gt;Prev&lt;/a&gt;` or `&lt;a&gt;Next
+&lt;/a&gt;`).
+
+By default, the view helper `paginate.href` is already executed with the inherited `req` variable, therefore it becomes a function
+ capable of returning a String when executed.
+
+When executed with `req`, it will return a function with two optional arguments, `prev` (Boolean) and `params` (String).
+...</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.express-paginate.middleware" id="apidoc.module.express-paginate.middleware">module express-paginate.middleware</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.express-paginate.middleware.middleware" id="apidoc.element.express-paginate.middleware.middleware">
+        function <span class="apidocSignatureSpan">express-paginate.</span>middleware
+        <span class="apidocSignatureSpan">(limit, maxLimit)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function middleware(limit, maxLimit) {
+
+  var _limit = (typeof limit === 'number') ? parseInt(limit, 10) : 10;
+
+  var _maxLimit = (typeof maxLimit === 'number') ? parseInt(maxLimit, 10) : 50;
+
+  return function _middleware(req, res, next) {
+
+    req.query.page = (typeof req.query.page === 'string') ? parseInt(req.query.page, 10) || 1 : 1;
+
+    req.query.limit = (typeof req.query.limit === 'string') ? parseInt(req.query.limit, 10) || 0 : _limit;
+
+    if (req.query.limit &gt; _maxLimit)
+      req.query.limit = _maxLimit;
+
+    if (req.query.page &lt; 1)
+      req.query.page = 1;
+
+    if (req.query.limit &lt; 0)
+      req.query.limit = 0;
+
+    req.skip = req.offset = (req.query.page * req.query.limit) - req.query.limit;
+
+    res.locals.paginate = {};
+    res.locals.paginate.page = req.query.page;
+    res.locals.paginate.limit = req.query.limit;
+    res.locals.paginate.href = exports.href(req);
+    res.locals.paginate.hasPreviousPages = req.query.page &gt; 1;
+    res.locals.paginate.hasNextPages = exports.hasNextPages(req);
+    res.locals.paginate.getArrayPages = exports.getArrayPages(req);
+
+    next();
+
+  };
+
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+```
+
+### paginate
+
+This creates a new instance of `express-paginate`.
+
+
+### paginate.<span class="apidocCodeKeywordSpan">middleware</span>(limit, maxLimit)
+
+This middleware validates and supplies default values to `req.skip` (an alias of `req.offset`, which can be used to skip or offset
+ a number of records for pagination, e.g. with Mongoose you would do `Model.find().skip(req.skip)`), `req.query.limit`, `req.query
+.page`, `res.locals.paginate`, `res.locals.hasPreviousPages`, and `res.locals.hasNextPages`.
+
+#### Arguments
+
+* `limit` a Number to limit results returned per page (defaults to `10`)
+* `maxLimit` a Number to restrict the number of results returned to per page (defaults to `50`) &amp;ndash; through this, users
+ will not be able to override this limit (e.g. they can't pass `?limit=10000` and crash your server)
+...</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocFooterDiv">
+    [ this document was created with
+    <a href="https://github.com/kaizhu256/node-utility2" target="_blank">utility2</a>
+    ]
+</div>
+</div>
+</body></html>
